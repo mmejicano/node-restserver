@@ -1,37 +1,26 @@
-const express = require('express')
 require('./config/config')
+
+const express = require('express')
+const mongoose = require('mongoose')
+const rutas = require('./routes') 
+
 const app = express()
-
 app.use(express.json())
-app.get('/usuario', (req, res) => {
-    res.json('hola mundo')
-})
-app.post('/usuario', (req, res) => {
-    let body = req.body
 
-    if(body.nombre === undefined){
-        res.status(400).json({
-            ok: false,
-            mensaje: 'nombre necesario'
-        })
-    }else {
-        res.json({
-            persona: body
-        })
-    }
-    
-})
-app.put('/usuario/:id', (req, res) => {
+app.use(rutas );
 
-    let data = req.params.id
-    res.json({
-        data
-    })
-})
-app.delete('/usuario', (req, res) => {
-    res.json('delete mundo')
-})
+mongoose.connect(process.env.URLDB , {
+    useNewUrlParser: true, 
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: true
+}, (err, res) => {
+  if (err) throw err;
+  console.log('MongoDB ONLINE!!')
+
+});
+
 
 app.listen(process.env.PORT, () => {
-    console.log('escuchando puerto: ', process.env.PORT)
+    console.log('Server running: http://localhost:',process.env.PORT)
 })
