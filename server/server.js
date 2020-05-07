@@ -13,7 +13,7 @@ mongoose.connect(process.env.URLDB , {
     useNewUrlParser: true, 
     useUnifiedTopology: true,
     useCreateIndex: true,
-    useFindAndModify: true
+    useFindAndModify: false
 }, (err, res) => {
   if (err) throw err;
   console.log('MongoDB ONLINE!!')
